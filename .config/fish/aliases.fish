@@ -4,6 +4,7 @@ alias la "eza -A --icons"
 alias lla "eza -l -a -g --icons"
 
 alias g git
+alias lg lazygit
 alias c clear
 
 alias vim nvim
