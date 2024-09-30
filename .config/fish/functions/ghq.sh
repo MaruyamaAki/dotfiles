@@ -9,6 +9,5 @@ else
 end
 
 set repo_path (ghq list -p | grep "/$repo_name\$")
-echo $repo_path
 
 cd "$repo_path"
