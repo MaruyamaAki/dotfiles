@@ -1,51 +1,77 @@
 local wezterm = require("wezterm")
 
-local config = {}
-
+-- Helper: map Cmd-<key> to send Ctrl-<key>
 local function remap_cmd_to_ctrl(key)
 	return {
 		key = key,
 		mods = "CMD",
-		action = wezterm.action.SendKey({
-			key = key,
-			mods = "CTRL",
-		}),
+		action = wezterm.action.SendKey({ key = key, mods = "CTRL" }),
 	}
 end
 
-if wezterm.config_builder then
-	config = wezterm.config_builder()
+local function disable_default_assignment(key)
+	return {
+		key = key,
+		mods = "CMD",
+		action = wezterm.action.DisableDefaultAssignment,
+	}
 end
 
-config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
+return {
+	-- Lunch tmux automatically -------------------------------------------
+	default_prog = { "/opt/homebrew/bin/tmux", "new-session", "-A", "-s", "main" },
 
--- カラースキームの設定
-config.color_scheme = "Tokyo Night"
-config.window_background_opacity = 0.8
+	-- Font -----------------------------------------------------------------
+	font = wezterm.font_with_fallback({
+		"PlemolJP", -- Regular PlemolJP
+	}),
+	font_size = 13.0,
 
-config.keys = {
-	remap_cmd_to_ctrl("t"),
-	remap_cmd_to_ctrl("h"),
-	remap_cmd_to_ctrl("j"),
-	remap_cmd_to_ctrl("k"),
-	remap_cmd_to_ctrl("l"),
-	remap_cmd_to_ctrl("x"),
-	remap_cmd_to_ctrl("c"),
-	remap_cmd_to_ctrl("v"),
-	remap_cmd_to_ctrl("/"),
-	remap_cmd_to_ctrl("a"),
+	-- Colors ---------------------------------------------------------------
+	color_scheme = "iceberg-dark", -- wezterm builtin scheme
 
-	-- CMD+Shift+Fでフルスクリーン切り替え
-	{
-		key = "f",
-		mods = "SHIFT|SUPER",
-		action = wezterm.action.ToggleFullScreen,
+	-- Opacity --------------------------------------------------------------
+	window_background_opacity = 0.8, -- 80% overall transparency
+	-- text_background_opacity   = 0.8,  -- cell background (for true transparency)
+
+	-- UI tweaks ------------------------------------------------------------
+	hide_tab_bar_if_only_one_tab = true,
+	-- window_decorations             = 'RESIZE',
+	use_fancy_tab_bar = false,
+	scrollback_lines = 10000,
+
+	-- macOS ----------------------------------------------------------------
+	enable_scroll_bar = false,
+	use_ime = true, -- keep IME state per pane
+
+	-- Performance ----------------------------------------------------------
+	-- front_end = 'OpenGL',      -- fallback if Metal glitches
+
+	-- Keybindings ----------------------------------------------------------
+	keys = {
+		-- -- Toggle FullScreen
+		-- {
+		-- 	key = "f", -- 押すキー
+		-- 	mods = "CTRL", -- 組み合わせる修飾キー
+		-- 	action = wezterm.action.ToggleFullScreen, -- フルスクリーントグル
+		-- },
+
+		disable_default_assignment("t"),
+		disable_default_assignment("h"),
+
+		remap_cmd_to_ctrl("c"),
+		remap_cmd_to_ctrl("t"),
+		remap_cmd_to_ctrl("u"),
+		remap_cmd_to_ctrl("d"),
+		remap_cmd_to_ctrl("/"),
+		remap_cmd_to_ctrl("h"),
+		remap_cmd_to_ctrl("j"),
+		remap_cmd_to_ctrl("k"),
+		remap_cmd_to_ctrl("l"),
+		remap_cmd_to_ctrl("r"),
+		-- remap_cmd_to_ctrl("f"),
 	},
+
+	-- Disable auto‑update pop‑ups (brew handles updates)
+	check_for_updates = false,
 }
-
--- フォントの設定
-config.font = wezterm.font("IBM Plex Mono")
--- フォントサイズの設定
-config.font_size = 12
-
-return config

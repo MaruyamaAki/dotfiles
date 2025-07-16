@@ -2,12 +2,35 @@ return {
   {
     enabled = false,
     "folke/flash.nvim",
+    ---@type Flash.Config
     opts = {
       search = {
         forward = true,
         multi_window = false,
         wrap = false,
         incremental = true,
+      },
+    },
+  },
+
+  {
+    "echasnovski/mini.hipatterns",
+    event = "BufReadPre",
+    opts = {
+      highlighters = {
+        hsl_color = {
+          pattern = "hsl%(%d+,? %d+%%?,? %d+%%?%)",
+          group = function(_, match)
+            local utils = require("solarized-osaka.hsl")
+            --- @type string, string, string
+            local nh, ns, nl = match:match("hsl%((%d+),? (%d+)%%?,? (%d+)%%?%)")
+            --- @type number?, number?, number?
+            local h, s, l = tonumber(nh), tonumber(ns), tonumber(nl)
+            --- @type string
+            local hex_color = utils.hslToHex(h, s, l)
+            return MiniHipatterns.compute_hex_color_group(hex_color, "bg")
+          end,
+        },
       },
     },
   },
@@ -26,61 +49,7 @@ return {
   },
 
   {
-    "akinsho/toggleterm.nvim",
-    tag = "*", -- 最新版を指定
-    config = function()
-      require("toggleterm").setup({
-        open_mapping = [[<c-\>]], -- Ctrl + \ でターミナルを開く
-        hide_numbers = true, -- 行番号を非表示にする
-        shade_filetypes = {},
-        shade_terminals = true, -- ターミナルをシェードする
-        start_in_insert = true, -- ターミナルを開いたときに挿入モードにする
-        persist_size = true, -- サイズを保存する
-        direction = "float", -- フローティングウィンドウで開く
-        close_on_exit = true, -- ターミナルが終了したら自動的に閉じる
-        shell = vim.o.shell, -- 使用するシェルを指定
-        float_opts = {
-          border = "curved", -- フローティングウィンドウのボーダーを指定
-          winblend = 3, -- ウィンドウの透明度
-          height = 20, -- フローティングウィンドウの高さ
-          width = 80, -- フローティングウィンドウの幅
-        },
-      })
-    end,
-    keys = {
-      {
-        "<leader>tt", -- <leader> + tt でターミナルをトグル
-        function()
-          require("toggleterm").toggle()
-        end,
-        desc = "Toggle Terminal",
-      },
-      {
-        "<leader>tf", -- <leader> + tf でフローティングターミナルを開く
-        function()
-          require("toggleterm").float_toggle()
-        end,
-        desc = "Toggle Floating Terminal",
-      },
-      {
-        "<leader>th", -- <leader> + th で水平ターミナルを開く
-        function()
-          require("toggleterm").horizontal_toggle()
-        end,
-        desc = "Toggle Horizontal Terminal",
-      },
-      {
-        "<leader>tv", -- <leader> + tv で垂直ターミナルを開く
-        function()
-          require("toggleterm").vertical_toggle()
-        end,
-        desc = "Toggle Vertical Terminal",
-      },
-    },
-  },
-
-  {
-    "telescope.nvim",
+    "nvim-telescope/telescope.nvim",
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -158,6 +127,14 @@ return {
           builtin.treesitter()
         end,
         desc = "Lists Function names, variables, from Treesitter",
+      },
+      {
+        ";c",
+        function()
+          local builtin = require("telescope.builtin")
+          builtin.lsp_incoming_calls()
+        end,
+        desc = "Lists LSP incoming calls for word under the cursor",
       },
       {
         "sf",
@@ -240,5 +217,42 @@ return {
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("file_browser")
     end,
+  },
+
+  {
+    "kazhala/close-buffers.nvim",
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>th",
+        function()
+          require("close_buffers").delete({ type = "hidden" })
+        end,
+        "Close Hidden Buffers",
+      },
+      {
+        "<leader>tu",
+        function()
+          require("close_buffers").delete({ type = "nameless" })
+        end,
+        "Close Nameless Buffers",
+      },
+    },
+  },
+
+  {
+    "saghen/blink.cmp",
+    opts = {
+      completion = {
+        menu = {
+          winblend = vim.o.pumblend,
+        },
+      },
+      signature = {
+        window = {
+          winblend = vim.o.pumblend,
+        },
+      },
+    },
   },
 }

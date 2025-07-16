@@ -9,7 +9,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
-vim.o.rtp = lazypath .. "," .. vim.o.rtp
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
@@ -18,22 +18,25 @@ require("lazy").setup({
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        style = "moon",
         news = {
           lazyvim = true,
           neovim = true,
         },
       },
     },
+
     -- import any extras modules here
-    -- { import = "lazyvim.plugins.extras.linting.eslint" },
-    -- { import = "lazyvim.plugins.extras.formatting.prettier" },
-    -- { import = "lazyvim.plugins.extras.lang.typescript" },
-    -- { import = "lazyvim.plugins.extras.lang.json" },
-    -- { import = "lazyvim.plugins.extras.lang.markdown" },
-    -- { import = "lazyvim.plugins.extras.lang.rust" },
+    { import = "lazyvim.plugins.extras.linting.eslint" },
+    { import = "lazyvim.plugins.extras.formatting.prettier" },
+    { import = "lazyvim.plugins.extras.lang.typescript" },
+    { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.lang.markdown" },
+    { import = "lazyvim.plugins.extras.lang.rust" },
+
+    -- TODO: Add the extra
+    -- { import = "lazyvim.plugins.extras.lang.go" },
+    --
     -- { import = "lazyvim.plugins.extras.lang.tailwind" },
-    -- { import = "lazyvim.plugins.extras.coding.copilot" },
     -- { import = "lazyvim.plugins.extras.dap.core" },
     -- { import = "lazyvim.plugins.extras.vscode" },
     -- { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
@@ -53,7 +56,7 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   -- dev = {
-  --   path = "~/.ghq/github.com",
+  -- path = "~/.ghq/github.com",
   -- },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
@@ -74,6 +77,13 @@ require("lazy").setup({
         "tutor",
         "zipPlugin",
       },
+    },
+  },
+  ui = {
+    custom_keys = {
+      ["<localleader>d"] = function(plugin)
+        dd(plugin)
+      end,
     },
   },
   debug = false,

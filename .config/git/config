@@ -1,11 +1,12 @@
-[user]
-	name = MaruyamaAki
-	email = maruyama@engineerforce.io
+[ghq]
+	root = /Users/maruyama/.ghq
 [alias]
 	co = checkout
-	st = status
 	br = branch
-	ci = commit
-
-[ghq]
-	root = ~/.ghq
+	st = status
+  ci = commit
+  amend = commit --amend --no-edit
+  lg = log --graph --oneline --decorate --all
+[user]
+	email = maruyama@engineerforce.io
+	name = MaruayamaAki
