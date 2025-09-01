@@ -10,5 +10,4 @@ vim.api.nvim_create_user_command("RemoveCR", function()
     vim.cmd("%s/\\r//g")
   end
 end, { range = true })
-
 -- vim.api.nvim_set_hl(0, "FlashLabelCustom", { fg = "#FF1493", bg = "#282A36", bold = true })
