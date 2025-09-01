@@ -1,18 +1,53 @@
 return {
   {
-    enabled = false,
     "folke/flash.nvim",
+    event = "VeryLazy",
+    -- vscode = true,
     ---@type Flash.Config
-    opts = {
-      search = {
-        forward = true,
-        multi_window = false,
-        wrap = false,
-        incremental = true,
+    opts = {},
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
       },
+      {
+        "S",
+        mode = { "n", "o", "x" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc = "Flash Treesitter",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+      {
+        "R",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Treesitter Search",
+      },
+      -- {
+      --   "<c-s>",
+      --   mode = { "c" },
+      --   function()
+      --     require("flash").toggle()
+      --   end,
+      --   desc = "Toggle Flash Search",
+      -- },
     },
   },
-
   {
     "echasnovski/mini.hipatterns",
     event = "BufReadPre",
@@ -48,6 +83,7 @@ return {
     },
   },
 
+  -- TODO: search from current dir
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
@@ -87,6 +123,14 @@ return {
           })
         end,
         desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore",
+      },
+      {
+        ";r",
+        function()
+          local builtin = require("telescope.builtin")
+          builtin.registers()
+        end,
+        desc = "registre fizzy finder",
       },
       {
         "\\\\",
@@ -135,6 +179,14 @@ return {
           builtin.lsp_incoming_calls()
         end,
         desc = "Lists LSP incoming calls for word under the cursor",
+      },
+      {
+        ";m",
+        function()
+          local builtin = require("telescope.builtin")
+          builtin.marks()
+        end,
+        desc = "Lists Jump list",
       },
       {
         "sf",
@@ -251,6 +303,23 @@ return {
       signature = {
         window = {
           winblend = vim.o.pumblend,
+        },
+      },
+    },
+  },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      -- close_if_last_window = true,
+      close_if_last_window = true,
+
+      filesystem = {
+        filtered_items = {
+          visible = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          hide_hidden = false,
         },
       },
     },

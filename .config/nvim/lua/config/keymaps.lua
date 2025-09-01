@@ -43,11 +43,11 @@ keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
 -- keymap.set("n", "ss", ":split<Return>", opts)
 -- keymap.set("n", "sv", ":vsplit<Return>", opts)
 
--- Move window
-keymap.set("n", "sh", "<C-w>h")
-keymap.set("n", "sk", "<C-w>k")
-keymap.set("n", "sj", "<C-w>j")
-keymap.set("n", "sl", "<C-w>l")
+-- -- Move window
+-- keymap.set("n", "sh", "<C-w>h")
+-- keymap.set("n", "sk", "<C-w>k")
+-- keymap.set("n", "sj", "<C-w>j")
+-- keymap.set("n", "sl", "<C-w>l")
 
 -- Resize window
 keymap.set("n", "<C-w><left>", "<C-w><")
@@ -69,3 +69,6 @@ vim.keymap.set({ "n", "i", "v" }, "<Up>", "<Nop>", { noremap = true, silent = tr
 vim.keymap.set({ "n", "i", "v" }, "<Down>", "<Nop>", { noremap = true, silent = true })
 vim.keymap.set({ "n", "i", "v" }, "<Left>", "<Nop>", { noremap = true, silent = true })
 vim.keymap.set({ "n", "i", "v" }, "<Right>", "<Nop>", { noremap = true, silent = true })
+
+-- IncRename
+vim.keymap.set("n", "<leader>rn", ":IncRename ")

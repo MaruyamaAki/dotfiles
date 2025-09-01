@@ -98,7 +98,7 @@ eval "$(starship init zsh)"
 # 7.2 enable zoxide
 eval "$(zoxide init zsh)"
 
-
+. $HOME/.cargo/env
 
 
 

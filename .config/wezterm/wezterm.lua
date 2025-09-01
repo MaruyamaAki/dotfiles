@@ -44,18 +44,14 @@ return {
 	enable_scroll_bar = false,
 	use_ime = true, -- keep IME state per pane
 
+	-- INFO: Solve1
+	native_macos_fullscreen_mode = true,
+
 	-- Performance ----------------------------------------------------------
 	-- front_end = 'OpenGL',      -- fallback if Metal glitches
 
 	-- Keybindings ----------------------------------------------------------
 	keys = {
-		-- -- Toggle FullScreen
-		-- {
-		-- 	key = "f", -- 押すキー
-		-- 	mods = "CTRL", -- 組み合わせる修飾キー
-		-- 	action = wezterm.action.ToggleFullScreen, -- フルスクリーントグル
-		-- },
-
 		disable_default_assignment("t"),
 		disable_default_assignment("h"),
 
@@ -69,7 +65,23 @@ return {
 		remap_cmd_to_ctrl("k"),
 		remap_cmd_to_ctrl("l"),
 		remap_cmd_to_ctrl("r"),
+		remap_cmd_to_ctrl("f"),
+		remap_cmd_to_ctrl("n"),
 		-- remap_cmd_to_ctrl("f"),
+		-- -- Toggle FullScreen
+
+		-- TODO:
+
+		-- {
+		-- 	key = "f", -- 押すキー
+		-- 	mods = "CTRL|CMD", -- 組み合わせる修飾キー
+		-- 	action = wezterm.action.ToggleFullScreen, -- フルスクリーントグル
+		-- },
+		-- -- {
+		-- -- 	key = "f", -- 押すキー
+		-- -- 	mods = "CTRL", -- 組み合わせる修飾キー
+		-- -- 	action = wezterm.action.ToggleFullScreen, -- フルスクリーントグル
+		-- -- },
 	},
 
 	-- Disable auto‑update pop‑ups (brew handles updates)
